@@ -476,7 +476,6 @@ In Server mode allow per-Query compression
 . Only per-Sample compression is allowed, except for DLRM Server mode where per-Query compression is allowed.
 
 Latency addition for network mode - currently the thought is that this doesn’t require changes in the latency targets of the benchmarks and doesn’t require any special handling. There are additional components which include serialization, transmission time of the data and decompression time. The current thought is that it should meet the current budget and the added latency is lower than the benchmark targets.
-*TBD: These assumptions should be further investigated once we progress with the proposal.*
 
 === Metrics
 The latency for a query is the time difference from loadgen calling QDL for that sample to when the response is received by loadgen.
