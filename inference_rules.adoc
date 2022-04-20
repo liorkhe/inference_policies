@@ -414,6 +414,86 @@ even if two or more performance results share the same source code.
 
 Note: The same code must be run for both the accuracy and performance LoadGen modes. This means the same output should be passed in QuerySampleComplete in both modes. 
 
+== MLPerf Over the Network
+
+In the MLPerf Over the network test the SUT is connected to the loadgen over a network fabric. the loadgen architecture is extended by introducing a query dispatch Library component which is the SUT proxy at the client size and it is a submitter implementation component. The QDL should work with the same SUT API of the loadgen for normal model. More details on the architecture can be found at: link:https://github.com/mlcommons/inference/tree/master/loadgen/README.md[Loadgen over Network]
+
+The MLperf over the Network will run in Server mode and Offline mode. All laodgen modes are expected to work as is with insignificant changes. These include running the test in performance mode, accuracy mode, find peak performance Search mode and compliance mode. The same applies for power measurements.
+
+=== QDL Constraints
+
+* The QDL is not allowed to do any pre-processing of the query, any processing related to the benchmark should be executed in the SUT. 
+* If decompression post processing is applied - then it should be done in the QDL because loadgen is checking the results and it would be timed. No other pre or post processing is allowed. Currently only the 3DUNET might require such.
+* The QDL is currently not allowed to batch queries. Every processing function implemented there should be on a query by query basis.  
+All functions implemented in the QDL are timed by the loadgen.
+* The Name method should return a known string for over the Network SUTs to identify it as over the network benchmark. Example is to return the IP address, or add a known string “Over the Network SUT”, in it that the submission checker can identify it.
+
+=== General Constraints
+
+There are no constraints on network fabrics or protocols for SUT and client side communication, as long as it is a type of network communication, something running over a wire that connects between two distinct machines. 
+It is assumed that a datacenter employing inference-specific accelerators is able to accommodate a suitable fabric and client-side software abstraction.
+
+The support for various network types excludes buses (like PCIe/CXL/CCIX, Hypertransport, NVLink, QPI, UPI, ICI (interchip interconnect)). We do not expect the network to go from a server to itself.
+
+To characterize 'fabric' interconnect, as opposed to bus based interconnect:
+
+* works as out-of-the-box chassis-to-chassis interconnect
+* uses copper or fiber-optics media
+* connects systems in meters to kilometers distances
+* uses switch topology
+* is highly scalable, reliable and fault-tolerant
+
+
+The choice of fabric and protocol must be reported in the submission metadata, so that users of the benchmarks who are constrained to commodity fabrics and protocols can filter results appropriately.
+
+=== SUT over the Network and Setup Constraints
+
+* SUT parameters and configuration should be specified in detail in the submission results. 
+* Network interface characteristics should be added to the report, both at the SUT side and at the Loadgen server side, including networking components or any other hardware in the system that either stand between them or are involved in any way in the test.
+
+
+=== Benchmarks and QSL Preprocessing
+
+Ideally current benchmark scenarios remain the same but tested over the network. As specified here the data formats for inputs and outputs can be adapted and preprocessed for network transmission, providing a tradeoff between compute and network bandwidth. This can be defined according to the specific network link and acceleration implemented. The preparation of the data is done in the QSL in a non-timely manner. in general, either no compression is used or lossless compression or using the original compression of the dataset. The exact details for each benchmark are specified below.
+If compression is used the data is compressed at the QSL in a non-timed manner, and then carried compressed over the network, and then decompressed at the SUT before inferencing. the end to end latency includes the decompression at the SUT also.
+
+The table below provides the pre-processing options for each benchmark.
+|===
+|*Area* | *Task* | *Model* | *QSL side PreProcessing/PostProcessing^(1,2,3)^*
+|Vision | Image classification | Resnet50-v1.5 | Either no compression or lossless compression or the original compression of the dataset (JPEG)
+|Vision | Object detection (large) | SSD-ResNet34 Going to change to Retinanet-resnext50 | Either no compression or lossless compression or the original compression of the dataset (For the Coco dataset JPEG, for Open Images JPEG) 
+|Vision | Medical image segmentation | 3D UNET | Either no compression or lossless compression. This is for the ingress and Egress
+|Speech | Speech-to-text | RNNT | Either no compression or lossless compression or the original compression of the dataset (FLAC)
+|Language | Language processing | BERT-large | Text in. No compression
+|Commerce | Recommendation | DLRM | Send query (Batch of samples) 
+Either no compression or lossless compression
+Allow any reasonable lossless compression.
+In Server mode allow per-Query compression 
+|===
+
+. Compression scheme will need approval. We will put an allowance list of schemes eventually, so that approval process will be rare. Compression scheme should be disclosed in advance. Do it like we disclose quantization - 2 weeks of advanced disclosure 
+. Allow to use information from the training set (not validation set) to the compression (ex: check index probability).
+. Only per-Sample compression is allowed, except for DLRM Server mode where per-Query compression is allowed.
+
+Latency addition for network mode - currently the thought is that this doesn’t require changes in the latency targets of the benchmarks and doesn’t require any special handling. There are additional components which include serialization, transmission time of the data and decompression time. The current thought is that it should meet the current budget and the added latency is lower than the benchmark targets.
+*TBD: These assumptions should be further investigated once we progress with the proposal.*
+
+=== Metrics
+The latency for a query is the time difference from loadgen calling QDL for that sample to when the response is received by loadgen.
+
+=== Migration
+Initially over-network will be a separate results category (parallel to datacenter and edge.) Ideally over-network will eventually be used for all server scenario submissions.
+
+=== Results Presentation
+Over-network will have its own results table, so that networking capability - e.g. NIC bandwidth and count, can be shown along with accelerator type and count.
+
+=== Offline mode
+Mlperf over the network is specified mainly for Server mode, but the setup and benchmarks are also valid for offline mode. Offline mode over the network makes sense to measure throughput performance over the network. Offline mode over the network can be optional first and in the round afterwards a full part of the benchmarks.
+
+
+=== Submissions to Open Division
+*TBD How over the network rules are restricted in Open Division? Do we allow submission over a bus for example? Easy one is have the same restriction as for Closed Division.*
+
 == Divisions
 
 There are two divisions of the benchmark suite, the Closed division and the Open
