@@ -459,9 +459,9 @@ Current benchmark scenarios remain the same but tested over the network. As spec
 
 The end-to-end latency is measure by the loadgen as it is done today, and it shall include all the network operation and processing latencies. The end-to-end latency shall include any additional processing at the SUT, like the decompression function.
 
-The table below provides the pre-processing and post-processing options for each benchmark.
+The table below provides the allowed pre-processing and post-processing options for each benchmark.
 |===
-|*Area* | *Task* | *Model* | *QSL side PreProcessing/PostProcessing^(1,2,3)^*
+|*Area* | *Task* | *Model* | *QSL side PreProcessing^(1,2,3)^*
 |Vision | Image classification | Resnet50-v1.5 | Allow one of the following compression options for pre-processing:
 
 1) No compression 2) Lossless compression 3) The original compression of the dataset (JPEG)
@@ -472,7 +472,7 @@ The table below provides the pre-processing and post-processing options for each
 
 1) No compression 2) Lossless compression
 
-This rule applies for the ingress and Egress.
+This rule applies both for the QSL pre-processing and for post-processing function allowed in QDL for this benchmark results.
 |Speech | Speech-to-text | RNNT | Allow one of the following compression options for pre-processing:
 
 1) No compression 2) Lossless compression 3) The original compression of the dataset (FLAC)
