@@ -454,11 +454,12 @@ A fabric interconnect must:
 1. Be highly scalable, reliable, and fault-tolerant
 
 Examples of allowed fabrics are Ethernet, IEEE802.11, Infiniband, and 3GPP.
+
 Examples of forbidden bus interconnect include: PCIe/CXL/CCIX, Hypertransport, NVLink, QPI, UPI, and ICI (interchip interconnect).
 
 The SUT and QDL must run on two physically separated and distinct systems.
 
-Fabric and protocol must be reported in the submission metadata. Submission metadata must be include sufficient to determine OSI layers one through four of the submission's network stack.
+Fabric and protocol must be reported in the submission metadata. Submission metadata must be sufficient to determine OSI layers one through four of the submission's network stack.
 
 ==== SUT over the Network and Setup Constraints
 
@@ -496,7 +497,7 @@ Allow any lossless compression that will be suitable for production use.
 In Server mode allow per-Query compression.
 |===
 
-. Compression scheme need pre-approval at least two weeks before a submission deadline.
+. Compression scheme needs pre-approval, at least two weeks before a submission deadline.
 . A compression scheme may use information from the training set, but not the not validation set (ex: check index probability).
 . Only per-Sample compression is allowed, except for DLRM Server mode where per-Query compression is allowed.
 
