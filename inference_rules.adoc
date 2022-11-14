@@ -444,8 +444,8 @@ Non-conforming network submission should be submitted to Open category, under th
 
 ==== QDL Constraints
 
-* The QDL is not allowed to do any pre-processing. i.e. changing of precision, or data layout.
-* The QDL is not allowed to do and post-processing of the responses, i.e. gather, reduction, or ArgMax.
+* The QDL is not allowed to do any pre-processing. e.g. changing of precision, or data layout.
+* The QDL is not allowed to do and post-processing of the responses, e.g. gather, reduction, or ArgMax.
 * If an SUT compresses its output, the QDL must decompress the output. Decompression is a timed operation. No other post-processing in the QDL is allowed.
 * The QDL is not allowed to batch queries.
 * The QDL is not allowed to pad of the data in queries.
