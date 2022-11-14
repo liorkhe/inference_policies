@@ -450,7 +450,7 @@ Non-conforming network submission should be submitted to Open category, under th
 * The QDL is not allowed to batch queries.
 * The QDL is not allowed to pad the data in queries.
 * The QDL is not allowed to cache queries or responses.
-* The QDL is implementing the network function of the LoadGen Node towards the SUT node and handles the required processing. E.G. padding to of the payload to the required network protocol.
+* The QDL is implementing the network function of the LoadGen Node towards the SUT node and handles the required processing. E.G. padding of the payload as required by the network protocol.
 * The Name method's return value must contain the substring "Network SUT".
 * The Name method's implementation must include at least one round trip over the network. The Name method must not return until the round trip is complete.
 
