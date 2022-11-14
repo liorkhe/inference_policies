@@ -448,7 +448,7 @@ Non-conforming network submission should be submitted to Open category, under th
 * The QDL is not allowed to do and post-processing of the responses, e.g. gather, reduction, or ArgMax.
 * If an SUT compresses its output, the QDL must decompress the output. Decompression is a timed operation. No other post-processing in the QDL is allowed.
 * The QDL is not allowed to batch queries.
-* The QDL is not allowed to pad of the data in queries.
+* The QDL is not allowed to pad the data in queries.
 * The QDL is not allowed to cache queries or responses.
 * The Name method's return value must contain the substring "Network SUT".
 * The Name method's implementation must include at least one round trip over the network. The Name method must not return until the round trip is complete.
@@ -481,7 +481,7 @@ Fabric and protocol must be reported in the submission metadata. Submission meta
 * Everything outside the LoadGen node should be considered as part of the SUT, for instance for counting power and latency. As an example, components outside the nodes like switch or load balancer should be considered part of the SUT. 
 * All queries must be transferred over the network, carrying the inference data, for inference execution at the SUT. All responses must be transferred back over the network, carrying the inference responses. 
 * Caching/Storing of the queries and inference data or responses for further use at the SUT is disallowed. It is allowed to cache/store other data like Neural Network weights or Neural Network executable.
-* SUT can do the required pre-processing of the data, i.e batching, Padding, processing of the requests (precision, data layout), compression, decompression. SUT can do the required post processing functions like gather, reduction or ArgMax. 
+* SUT can do the required pre-processing of the data, e.g. Batching, Padding, processing of the requests (precision, data layout), compression, decompression. SUT can do the required post processing functions e.g. gather, reduction or ArgMax. 
 * Network interface characteristics must be added to the report, both at the SUT side and at the LoadGen system side, including networking components, and name any other components through which data passes between LoadGen and the SUT for reproducibility.
 * It is required to add a system diagram that shows how the components between the LoadGen node and the SUT node are connected and to add text that explains the diagram.
 * For reproducibility, it is required to specify software version of all components, HW configurations, software stacks, dockers and settings.
