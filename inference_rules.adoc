@@ -484,8 +484,8 @@ Fabric and protocol must be reported in the submission metadata. Submission meta
 * For "Available" submissions, for reproducibility, it is required to specify software version of all components, hardware configurations, software stacks, dockers, and settings of all components and stacks.
 
 ==== Benchmarks and QSL Preprocessing
-
-Data formats for inputs and outputs are allowed to be compressed for network transmission, providing a tradeoff between compute and network bandwidth. Data transferred between the LoadGen system and the SUT can be compressed using one of the options from the following table for each benchmark. Compression is performed by QSL, and is untimed. The compression scheme needs approval by the Working Group, allowing compression schemes that will be suitable for production, so for example, very asymmetric schemes are not expected to be approved.
+Untimed operations for data pre-processing and response post-processing, as defined in current Closed division, are maintained, so that the Closed division and Network division are aligned on benchmark inputs and outputs.
+Data formats for inputs and outputs are allowed to be compressed for network transmission, providing a tradeoff between compute and network bandwidth. Data transferred between the LoadGen system and the SUT can be compressed using one of the options from the following table for each benchmark. Compression is performed by QSL, and is untimed. The compression scheme needs approval by the Working Group, allowing compression schemes that will be suitable for production, so for example, very asymmetric schemes are not expected to be approved. If untimed data pre-processing is done on the uncompressed data, and compression is used as specified above, then this pre-processing will be executed at the SUT after the decompression function and then it will be timed, also reflecting a more realistic usage of Inference over the Network.
 
 |===
 |*Area* | *Task* | *Model* | *QSL side PreProcessing^(1,2,3)^*
@@ -503,7 +503,7 @@ This rule applies both for the QSL pre-processing and for post-processing functi
 |Speech | Speech-to-text | RNNT | Allow one of the following compression options for pre-processing:
 
 1) No compression 2) Lossless compression 3) The original compression of the dataset (FLAC)
-|Language | Language processing | BERT-large | Text in. No compression allowed.
+|Language | Language processing | BERT-large | Tokenized text in. No compression allowed.
 |Commerce | Recommendation | DLRM | QDL sends query (Batch of samples).
 
 Allow one of the following compression options for pre-processing:
