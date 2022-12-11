@@ -448,7 +448,7 @@ Non-conforming network submission should be submitted to Open category, under th
 * The QDL should reflect a single SUT to the LoadGen. LoadGen Operates with a single SUT. 
 * The Name method's return value must contain the substring "Network SUT".
 * The Name method's implementation must include at least one round trip over the network. The Name method must not return until the round trip is complete.
-* The QDL should serially get the Name from all the Nodes of the SUT, aggregate the response in the Name Method after getting response from all Nodes. Each Node must have a unique Name.   
+* The QDL should serially get the names from all the Nodes of the SUT, aggregate the response in the Name Method after getting response from all Nodes. Each Node must have a unique Name.   
 
 The submission must include source code for the QDL implementation above the level of the OSI session layer (RPC or equivalent), and sufficient documentation of the session layer API that a reader of that code can understand what data is being marshalled and sent over the network for each query.
 
@@ -470,7 +470,7 @@ Examples of forbidden bus interconnect include: PCIe/CXL/CCIX, Hypertransport, N
 
 Additionally, any interconnect not listed in the permitted list is forbidden unless clearance is first obtained from the MLPerf Inference WG.
 
-The SUT and QDL must run on two physically separated and distinct systems. SUT can contain multiple Nodes.
+The SUT and QDL must run on two physically separated and distinct systems. The SUT can contain multiple Nodes.
 
 Fabric and protocol must be reported in the submission metadata. Submission metadata must be sufficient to determine OSI layers one through four of the submission's network stack.
 
